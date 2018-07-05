@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
+import logo from '../asset/logo.svg'
 import './App.css'
-import Person from './Person/Person'
+import Persons from '../components/Persons/Persons'
+import Cockpit from '../components/Cockpit/Cockpit'
 
 class App extends Component {
   constructor (props) {
@@ -48,32 +49,16 @@ class App extends Component {
 
   // this.switchNameHandler.bind(this, this.state.persons[1].name, this.state.persons[0].name)
   render () {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    }
-
     let persons = null
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map((person, index) => {
-            return <Person
-              key={person.id}
-              name={person.name}
-              age={person.age}
-              click={() => this.deletePersonHandler(index)}
-              change={(event) => this.nameChangeHandler(event, person.id)}
-            />
-          })}
+          <Persons
+            persons={this.state.persons}
+            clicked={this.deletePersonHandler}
+            changed={this.nameChangeHandler} />
         </div>
       )
-
-      style.backgroundColor = 'red'
     }
     return (
       <div className='App'>
@@ -82,10 +67,10 @@ class App extends Component {
           <h1 className='App-title'>Welcome to React</h1>
         </header>
         <h1>React</h1>
-        <p> Welcome to a demo of react lets go bruv!!!! </p>
-        <button style={style} onClick={this.togglePersonHandler}>
-          Show Persons
-        </button>
+        <Cockpit
+          persons={this.state.persons}
+          showPersons={this.state.showPersons}
+          clicked={this.togglePersonHandler} />
         {persons}
       </div>
     )
