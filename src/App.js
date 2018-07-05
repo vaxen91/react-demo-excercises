@@ -8,23 +8,35 @@ class App extends Component {
     super(props)
     this.state = {
       persons: [
-        {name: 'Mattia', age: 23},
-        {name: 'Marta', age: 28}
+        {id: 1, name: 'Mattia', age: 23},
+        {id: 2, name: 'Marta', age: 28}
       ],
       showPersons: false
     }
-    this.switchNameHandler = (newName, anotherNewName) => {
-      console.log('CLICK')
-      this.setState({ persons: [
-        {name: this.state.persons[1].name, age: 23},
-        {name: this.state.persons[0].name, age: 28}]
-      })
+
+    this.deletePersonHandler = (personIndex) => {
+      // const persons = this.state.persons.slice() best practice
+      const persons = [...this.state.persons]
+      persons.splice(personIndex, 1)
+      this.setState({persons: persons})
     }
 
-    this.nameChangeHandler = (event) => {
-      this.setState({ persons: [
-        {name: this.state.persons[0].name, age: 23},
-        {name: event.target.value, age: 28}]
+    this.nameChangeHandler = (event, id) => {
+      const personIndex = this.state.persons.findIndex(per => {
+        return per.id === id
+      })
+
+      const person = {
+        ...this.state.persons[personIndex]
+      }
+
+      person.name = event.target.value
+
+      const persons = [...this.state.persons]
+
+      persons[personIndex] = person
+
+      this.setState({ persons: persons
       })
     }
 
@@ -40,10 +52,13 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map(person => {
+          {this.state.persons.map((person, index) => {
             return <Person
+              key={person.id}
               name={person.name}
               age={person.age}
+              click={() => this.deletePersonHandler(index)}
+              change={(event) => this.nameChangeHandler(event, person.id)}
             />
           })}
         </div>
