@@ -48,6 +48,15 @@ class App extends Component {
 
   // this.switchNameHandler.bind(this, this.state.persons[1].name, this.state.persons[0].name)
   render () {
+    const style = {
+      backgroundColor: 'green',
+      color: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    }
+
     let persons = null
     if (this.state.showPersons) {
       persons = (
@@ -63,6 +72,8 @@ class App extends Component {
           })}
         </div>
       )
+
+      style.backgroundColor = 'red'
     }
     return (
       <div className='App'>
@@ -72,7 +83,7 @@ class App extends Component {
         </header>
         <h1>React</h1>
         <p> Welcome to a demo of react lets go bruv!!!! </p>
-        <button onClick={this.togglePersonHandler}>
+        <button style={style} onClick={this.togglePersonHandler}>
           Show Persons
         </button>
         {persons}
